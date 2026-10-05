@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js"></script>
+</head>
+<body>
+  <div id="app" class="show-right">
+    <aside id="sidebar">
+      <div class="sidebar-head">
+        <span id="vault-name" class="vault-name" title="">Notes</span>
+        <div class="icon-row">
+          <button class="icon" id="btn-new" title="New note (Alt+N)" aria-label="New note">＋</button>
+          <button class="icon" id="btn-template" title="New from template (Alt+T)" aria-label="New from template">▤</button>
+          <button class="icon" id="btn-daily" title="Today's daily note (Alt+D)" aria-label="Daily note">◷</button>
+          <button class="icon" id="btn-folder" title="New folder" aria-label="New folder">▭</button>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="files" class="active">Files</button>
+        <button role="tab" data-tab="search">Search</button>
+        <button role="tab" data-tab="tags">Tags</button>
+      </nav>
+      <section class="tab-panel" data-panel="files">
+        <div id="tree" class="tree" role="tree"></div>
+      </section>
+      <section class="tab-panel" data-panel="search" hidden>
+        <input id="search-input" type="search" placeholder="Search notes…  (#tag works too)" autocomplete="off">
+        <div id="search-results" class="results"></div>
+      </section>
+      <section class="tab-panel" data-panel="tags" hidden>
+        <div id="tag-list" class="tag-list"></div>
+      </section>
+      <div class="sidebar-foot">
+        <button class="link-btn" id="btn-settings">Settings</button>
+        <button class="link-btn" id="btn-theme" title="Toggle theme">Theme</button>
+      </div>
+    </aside>
+
+    <main id="main">
+      <header class="note-head">
+        <button class="icon only-narrow" id="btn-toggle-left" aria-label="Toggle sidebar">☰</button>
+        <div class="title-wrap">
+          <span id="note-folder" class="note-folder"></span>
+          <input id="note-title" class="note-title" placeholder="Untitled" spellcheck="false" aria-label="Note title" disabled>
+        </div>
+        <span id="save-status" class="save-status"></span>
+        <div class="segmented" role="group" aria-label="View mode">
+          <button data-mode="edit">Edit</button>
+          <button data-mode="split">Split</button>
+          <button data-mode="preview">Preview</button>
+        </div>
+        <button class="icon" id="btn-toggle-right" title="Toggle backlinks & outline" aria-label="Toggle right panel">⧉</button>
+      </header>
+      <div id="conflict" class="banner" hidden>
+        <span>This note was changed outside the app.</span>
+        <button id="btn-reload">Load their version</button>
+        <button id="btn-overwrite">Keep mine</button>
+      </div>
+      <div id="workspace" class="workspace mode-split">
+        <div class="editor-wrap">
+          <textarea id="editor" spellcheck="true" placeholder="Start writing…  Type [[ to link a note." disabled></textarea>
+          <div id="suggest" class="suggest" hidden></div>
+        </div>
+        <article id="preview" class="preview markdown"></article>
+      </div>
+      <div id="empty" class="empty">
+        <h2>No note open</h2>
+        <p>Pick a note on the left, or:</p>
+        <p class="empty-actions">
+          <button id="empty-new">New note</button>
+          <button id="empty-template">New from template</button>
+          <button id="empty-daily">Today's daily note</button>
+        </p>
+        <p class="hint">Ctrl/Cmd+O to jump to any note</p>
+      </div>
+    </main>
+
+    <aside id="rightbar">
+      <section>
+        <h3>Backlinks <span id="backlink-count" class="count"></span></h3>
+        <div id="backlinks" class="results"></div>
+        <details id="unlinked-wrap">
+          <summary>Unlinked mentions <span id="unlinked-count" class="count"></span></summary>
+          <div id="unlinked" class="results"></div>
+        </details>
+      </section>
+      <section>
+        <h3>Outline</h3>
+        <ol id="outline" class="outline"></ol>
+      </section>
+    </aside>
+  </div>
+
+  <dialog id="palette" class="palette">
+    <input id="palette-input" autocomplete="off" spellcheck="false">
+    <ul id="palette-list" role="listbox"></ul>
+    <div id="palette-hint" class="palette-hint"></div>
+  </dialog>
+
+  <dialog id="form-dialog" class="form-dialog">
+    <form method="dialog" id="form-dialog-form">
+      <h3 id="form-dialog-title"></h3>
+      <div id="form-dialog-fields"></div>
+      <menu>
+        <button value="cancel" formnovalidate>Cancel</button>
+        <button value="ok" id="form-dialog-ok" class="primary">OK</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <div id="context-menu" class="context-menu" hidden></div>
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
